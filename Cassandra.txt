@@ -1,0 +1,49 @@
+Cassandra
+
+>cqlsh
+>help
+> describe keyspaces; 
+Note : describe is used describe the particular table and show the tables.
+Sample of Alter, Delete & Update:
+
+> CREATE KEYSPACE SampleDemoDB WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
+> ALTER KEYSPACE SampleDemoDB WITH replication = {'class':'NetworkTopologyStrategy', 'replication_factor' : 1};
+>use SampleDemoDB;
+> CREATE TABLE employee(   emp_id int PRIMARY KEY,   emp_name text,   emp_city text,   emp_sal varint,   emp_phone varint   );
+> INSERT INTO employee (emp_id, emp_name, emp_city,   emp_phone, emp_sal) VALUES(1,'ram', 'Hyderabad', 9848022338, 50000);
+> INSERT INTO employee (emp_id, emp_name, emp_city,   emp_phone, emp_sal) VALUES(2,'robin', 'Hyderabad', 9848022339, 40000);
+> INSERT INTO employee (emp_id, emp_name, emp_city,   emp_phone, emp_sal) VALUES(3,'rahman', 'Chennai', 9848022330, 45000);
+> INSERT INTO employee (emp_id, emp_name, emp_city,   emp_phone, emp_sal) VALUES(4,'remo', 'Trichy', 98480223370, 20000);
+>  INSERT INTO employee (emp_id, emp_name, emp_city,   emp_phone, emp_sal) VALUES(5,'harish', 'Theni', 9848022359, 4000);
+>  UPDATE employee SET emp_city='Chidambaram', emp_sal=60000 WHERE emp_id = 2;
+> select * from employee where emp_id = 2;
+> delete emp_sal from employee where emp_id = 3;
+> select * from employee;
+
+Truncate Sample:
+
+> CREATE TABLE department(   dept_id int PRIMARY KEY,   dept_name text,   dept_project text,   dept_phone varint   );
+> INSERT INTO department (dept_id, dept_name, dept_project,  dept_phone) VALUES(1,'crime','crimeanalysis', 9848022338);
+> truncate department;
+>  select * from department;
+
+Collection Sample:
+
+> CREATE TABLE data(name text PRIMARY KEY, email list<text>);
+> INSERT INTO data(name, email) VALUES ('Shreya',['abc@gmail.com','cba@yahoo.com']);
+> INSERT INTO data(name, email) VALUES ('Sek',['sek08@gmail.com','shek@yahoo.com']);
+> INSERT INTO data(name, email) VALUES ('Sush',['sushmi@gmail.com','guptha@yahoo.com']);
+> select * from data;
+
+Allow Filtering Sample:
+
+> CREATE TABLE blogs (blogId int,
+                ...                     time1 int,
+                ...                     time2 int,
+                ...                     author text,
+                ...                     content text,
+                ...                     PRIMARY KEY(blogId, time1, time2));
+> SELECT * FROM blogs;
+> SELECT * FROM blogs WHERE blogId =1 and time1 =122 and time2 =142;
+> SELECT * FROM blogs WHERE time2 = 141 ALLOW FILTERING;
+> SELECT * FROM blogs WHERE author=’Jonathan Ellis’ and time2 = 141 ALLOW FILTERING;
